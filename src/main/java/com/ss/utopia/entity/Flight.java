@@ -1,30 +1,62 @@
 package com.ss.utopia.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+
+@Entity
+@Table(name="flight")
 public class Flight {
-	private int id;
-	private int route_id;
-	private int airplane_id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="id")
+	private Integer id;
+	
+	@ManyToOne
+	@JoinColumn(name="route_id")
+	private Route route;
+	
+	@ManyToOne
+	@JoinColumn(name="airplane_id")
+	private Airplane airplane;
+	
+	@Column(name="departure_time")
 	private String departure_time;
+	@Column(name="reserved_seats")
 	private int reserved_seats;
+	@Column(name="seat_price")
 	private float seat_price;
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	public int getRoute_id() {
-		return route_id;
+//	public int getRoute_id() {
+//		return route.getId();
+//	}
+	public Route getRoute() {
+		return route;
 	}
-	public void setRoute_id(int route_id) {
-		this.route_id = route_id;
+	public void setRoute(Route route) {
+		this.route = route;
 	}
-	public int getAirplane_id() {
-		return airplane_id;
+//	public int getAirplane_id() {
+//		return airplane.getId();
+//	}
+	public Airplane getAirplane() {
+		return airplane;
 	}
-	public void setAirplane_id(int airplane_id) {
-		this.airplane_id = airplane_id;
+	public void setAirplane_id(Airplane airplane) {
+		this.airplane = airplane;
 	}
 	public String getDeparture_time() {
 		return departure_time;

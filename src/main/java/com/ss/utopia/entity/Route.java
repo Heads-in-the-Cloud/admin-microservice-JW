@@ -1,27 +1,50 @@
 package com.ss.utopia.entity;
 
-public class Route {
-	private String originAirport;
-	private String destinationAirport;
-	private Integer routeId;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-	public Integer getRouteId() {
-		return routeId;
+
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+
+@Entity
+@Table(name = "route")
+public class Route {	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "id")
+	private Integer id;
+	
+    @ManyToOne
+    @JoinColumn(name = "origin_id")
+	private Airport originAirport;
+    
+    @ManyToOne
+    @JoinColumn(name = "destination_id")
+	private Airport destinationAirport;
+	
+	public Integer getId() {
+		return id;
 	}
-	public void setRouteId(Integer routeId) {
-		this.routeId = routeId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 	
-	public String getOriginAirport() {
-		return originAirport;
+	public String getOriginAirportId() {
+		return originAirport.getAirportCode();
 	}
-	public void setOriginAirport(String originAirport) {
+	public void setOriginAirport(Airport originAirport) {
 		this.originAirport = originAirport;
 	}
-	public String getDestinationAirport() {
-		return destinationAirport;
+	
+	public String getDestinationAirportId() {
+		return destinationAirport.getAirportCode();
 	}
-	public void setDestinationAirport(String destinationAirport) {
+	public void setDestinationAirport(Airport destinationAirport) {
 		this.destinationAirport = destinationAirport;
 	}
 }

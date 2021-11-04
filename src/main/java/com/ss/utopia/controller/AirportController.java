@@ -9,24 +9,24 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import java.sql.SQLException;
-import java.util.Collection;
 
 import com.ss.utopia.entity.Airport;
 import com.ss.utopia.service.AirportService;
 
 @RestController
 @RequestMapping("/airport")
-public class AdminController {
+public class AirportController {
 	@Autowired
-	AirportService airportService; // = new AirportService();
+	AirportService airportService;
 
 	@PostMapping
-	public @ResponseBody ResponseEntity<String> addAirport(@RequestParam String iata_id, @RequestParam String city)
+	public @ResponseBody ResponseEntity<String> addAirport(@RequestBody Airport airport)
 			throws ClassNotFoundException, SQLException {
-		return airportService.createAirport(iata_id, city);
+		return airportService.createAirport(airport);
 	}
 
 	@GetMapping
@@ -45,8 +45,8 @@ public class AdminController {
 	}
 	
 	@DeleteMapping("/{iata_id}")
-	public @ResponseBody void deleteAirport(@PathVariable String iata_id) throws ClassNotFoundException, SQLException {
-		airportService.deleteAirport(iata_id);
+	public @ResponseBody ResponseEntity<String> deleteAirport(@PathVariable String iata_id) throws ClassNotFoundException, SQLException {
+		return airportService.deleteAirport(iata_id);
 	}
 	
 }

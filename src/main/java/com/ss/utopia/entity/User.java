@@ -1,25 +1,45 @@
 package com.ss.utopia.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+
+@Entity
+@Table(name="user")
 public class User {
-	private int user_id;
-	private int role_id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="id")
+	private int id;
+	
+	@ManyToOne
+	@JoinColumn(name="role_id")
+	private UserRole userRole;
+	
 	private String given_name;
 	private String family_name;
 	private String username;
 	private String password;
 	private String email;
 	private String phone;
-	public int getUser_id() {
-		return user_id;
+	public int getId() {
+		return id;
 	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUser_id(Integer id) {
+		this.id = id;
 	}
-	public int getRole_id() {
-		return role_id;
+	public Integer getRole_id() {
+		return userRole.getId();
 	}
-	public void setRole_id(int role_id) {
-		this.role_id = role_id;
+	public void setUserRole(UserRole userRole) {
+		this.userRole = userRole;
 	}
 	public String getGiven_name() {
 		return given_name;

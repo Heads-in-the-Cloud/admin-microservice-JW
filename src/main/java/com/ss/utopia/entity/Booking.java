@@ -1,12 +1,26 @@
 package com.ss.utopia.entity;
 
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-//I am making the assumption that the add/update/read/delete tickets means to modify the booking table,
-//1 bookin should be 1 ticket--confirmation code should equate to 1 ticket
+
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+@Entity
+@Table(name="booking")
 public class Booking {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="id")
 	private int id;
+	
+	//0 is inactive, 1 is active
 	private int is_active;
+	
 	private String confirmation_code;
 	
 	public int getId() {
