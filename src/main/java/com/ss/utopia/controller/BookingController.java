@@ -30,7 +30,7 @@ public class BookingController {
 	BookingService bookingService;
 	
 	@GetMapping
-	public @ResponseBody Iterable<Booking> getBookings() throws ClassNotFoundException, SQLException{
+	public @ResponseBody Iterable<Booking> getBookings(){
 		return bookingService.getBookings();
 	}
 	
@@ -39,6 +39,19 @@ public class BookingController {
 		return bookingService.getBookingById(id);
 	}
 	
+	@GetMapping("/payment")
+	public @ResponseBody Iterable<BookingPayment> getPayments(){
+		return bookingService.getPayments();
+	}
+	
+	@GetMapping("/flightbookings")
+	public @ResponseBody Iterable<FlightBookings> getFlightBookings(){
+		return bookingService.getFlightBookings();
+	}
+	@GetMapping("/passengers")
+	public @ResponseBody Iterable<Passenger> getPassengers(){
+		return bookingService.getPassengers();
+	}
 	@PostMapping
 	public @ResponseBody ResponseEntity<String> addBooking(@RequestBody BookingInput input){
 		System.out.println(input.getPayment());
@@ -48,8 +61,8 @@ public class BookingController {
 	}
 	
 	@PutMapping
-	public @ResponseBody ResponseEntity<String> updateBooking(@RequestParam Integer id, @RequestBody Booking booking){
-		return bookingService.updateBooking(id, booking);
+	public @ResponseBody ResponseEntity<String> updateBooking(@RequestParam Integer id, @RequestParam Integer status){
+		return bookingService.updateBooking(id, status);
 	}
 //	
 //	@DeleteMapping("/{id}")

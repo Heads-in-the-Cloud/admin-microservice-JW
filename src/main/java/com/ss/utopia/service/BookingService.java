@@ -39,6 +39,18 @@ public class BookingService {
 		return bookingRepo.findAll();
 	}
 	
+	public Iterable<Passenger> getPassengers(){
+		return passRepo.findAll();
+	}
+	
+	public Iterable <BookingPayment> getPayments(){
+		return bpRepo.findAll();
+	}
+	
+	public Iterable <FlightBookings> getFlightBookings(){
+		return fbRepo.findAll();
+	}
+	
 	public ResponseEntity<Booking> getBookingById(Integer id){
 		Optional<Booking> booking = bookingRepo.findById(id);
 		if(booking.isEmpty()) {
@@ -74,6 +86,7 @@ public class BookingService {
 		if(booking.getId() != bp.getBookingId()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("invalid booking_ID for payment");
 		}
+		bp.setRefunded(0);
 		bpRepo.save(bp);
 		for(int j = 0; j<flightIds.size(); j++) {
 			FlightBookings fb = new FlightBookings();
@@ -92,17 +105,26 @@ public class BookingService {
 
 	}
 	
-	public ResponseEntity<String> updateBooking(Integer id, Booking booking){
+	public ResponseEntity<String> updateBooking(Integer id, Integer activeStatus){
+		if(activeStatus!=0 && activeStatus!=1) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Cannot set active status to this");
+		}
 		Optional<Booking>bookingExist = bookingRepo.findById(id);
 		if(bookingExist.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Booking with this id does not exist");
 		}
-		bookingRepo.save(booking);
-		Integer isActive = booking.getId();
+		Booking bookingUpdate = bookingExist.get();
+		
+		bookingUpdate.setIs_active(activeStatus);
+		bookingRepo.save(bookingUpdate);
 		BookingPayment updateBookingPayment = bpRepo.getById(id);
-		if(isActive == 0) {
+		if(activeStatus == 0) {
 			updateBookingPayment.setRefunded(1);
 		}
+		else {
+			updateBookingPayment.setRefunded(0);
+		}
+		bpRepo.save(updateBookingPayment);
 		return ResponseEntity.status(HttpStatus.ACCEPTED).body("Update Succeeded");
 		
 	}
