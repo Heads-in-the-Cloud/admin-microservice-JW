@@ -1,9 +1,27 @@
 package com.ss.utopia.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
+
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+
+@Entity
+@Table(name="passenger")
 public class Passenger{
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="id")
 	private int passenger_id;
-	private int booking_id;
+	
+	@ManyToOne
+	@JoinColumn(name="booking_id")
+	private Booking booking;
 	private String given_name; 
 	private String family_name;
 	private String dob;
@@ -17,10 +35,10 @@ public class Passenger{
 		this.passenger_id = passenger_id;
 	}
 	public int getBooking_id() {
-		return booking_id;
+		return booking.getId();
 	}
-	public void setBooking_id(int booking_id) {
-		this.booking_id = booking_id;
+	public void setBooking(Booking booking) {
+		this.booking = booking;
 	}
 	public String getGiven_name() {
 		return given_name;

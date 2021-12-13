@@ -1,20 +1,35 @@
 package com.ss.utopia.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "airplane")
 public class Airplane {
-	private int id;
-	private int type_id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Integer id;
 	
-	public int getId() {
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+	private AirplaneType aType;
+	
+	public Integer getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
-	public int getType_id() {
-		return type_id;
+	public Integer getaTypeId() {
+		return aType.getID();
 	}
-	public void setType_id(int type_id) {
-		this.type_id = type_id;
+	public void setaType(AirplaneType aType) {
+		this.aType = aType;
 	}
 
 }
